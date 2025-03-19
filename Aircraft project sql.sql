@@ -153,6 +153,7 @@ SELECT ename
   FROM employees INNER JOIN certified USING (eid)
                  INNER JOIN aircraft  USING (aid)
  WHERE cruisingrange > 1000
+MINUS
 SELECT ename
   FROM employees INNER JOIN certified USING (eid)
                  INNER JOIN aircraft  USING (aid)
@@ -175,11 +176,14 @@ SELECT ename,
                  INNER JOIN aircraft  USING (aid)
        )
  WHERE min_cr_by_eid > 1000
-
+INTERSECT
 SELECT ename
   FROM employees INNER JOIN certified USING (eid)
                  INNER JOIN aircraft  USING (aid)
- WHERE aname LIKE 'Boeing%'
+ WHERE aname LIKE 'Boeing%';
+
+
+ ===================================================================================================================================================================
  
  
 -- a) Print the names and ages of each employee who works in both the IT department and the Research department.
@@ -187,7 +191,7 @@ SELECT name, age
   FROM emp INNER JOIN works using (eid)
            INNER JOIN dept  using (did)
  WHERE dname = 'IT'
-
+INTERSECT
 SELECT name, age
   FROM emp INNER JOIN works using (eid)
            INNER JOIN dept  using (did)
@@ -227,6 +231,8 @@ SELECT managerid,
 )
 WHERE count_dept > 1
   AND sum_budget > 200000;
+  
+-- g) Find the manager ids of managers who control the largest amounts.
 
 
 -- h) Find the enames of managers who manage only departments with budgets larger than 100000, but at least one department with budget less than 200000.
